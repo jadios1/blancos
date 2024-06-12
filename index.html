@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+    <style>
+        .wpisz
+        {
+            font-family:  Calibri;
+            background-color:  #fff;
+        }
+        .wyszukiwanie
+        {
+            padding-top: 120px;
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+        }
+        .wyszukiwanie2
+        {
+            width: 300px;
+            height: 30px;
+            outline-style: groove;
+            outline-width: 1px;
+        }
+        .przyciski
+        {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding-top: 10px;
+        }
+
+        .box {
+    width: 470px;
+    height: 640px;
+    padding: 10px;
+    border: 3px solid black;
+    margin: auto; /* This will center the box */
+    overflow-y:scroll;
+    }
+    .box iframe {
+    width: 100%;
+    height: 100%;
+}
+
+
+
+    </style>
+</head>
+    <audio id = "moje audio"></audio>
+
+    <body class="wpisz">
+      <div class="wyszukiwanie">
+        <select name = "piosenki" id ="piosenki" class="wyszukiwanie2">
+            <option value = "w moich bledach.mp3">w moich bledach.mp3</option>
+            <option value = "rozpierdol.mp3">rozpierdol.mp3</option>
+            <option value = "dom.mp3">dom.mp3</option>
+            <option value = "biale wyjscie.mp3">biale wyjscie.mp3</option>
+            <option value = "sampha.mp3">sampha.mp3</option>
+            <option value = "dzk.mp3">dzk.mp3</option>
+            <option value = "finalny kendrick.mp3">finalny kendrick.mp3</option>
+            <option value = "magic.mp3">magic.mp3</option>
+
+
+
+        </select>
+    </div>
+
+    <div class="przyciski">
+        <p>
+        <button onclick="playMusic()" type="button">
+            <img src="play.png" width="80" >
+        </button>
+
+        <button onclick="pauseAudio()" type="button">
+            <img src="pause.png" width="80">
+        </button>
+        </p>
+    </div>
+    <div>
+        <div class="box">
+            <pre id="tekstpiosenki">
+tutaj bedzie tekst
+            </pre>
+
+        </div>
+    </div>
+
+</body>
+</html>
+
+<script>
+    //tutaj musi byc zamiast moje audio nazwa nuty
+    const fileMap = {
+        'w moich bledach.mp3': 'w moich bledach.txt',
+        'rozpierdol.mp3' : 'rozpierdol.txt',
+        'dom.mp3':'dom.txt',
+        'biale wyjscie.mp3':'biale wyjscie.txt',
+        'sampha.mp3':'sampha.txt',
+        'dzk.mp3':'dzk.txt',
+        'finalny kendrick.mp3':'finalny kendirkc.txt',
+        'magic.mp3':'magic.txt'
+
+        // Add more mappings as needed
+};
+    document.getElementById('piosenki').onchange = onChangeHandler;
+    const audio = document.getElementById("moje audio");
+    const songsSelect = document.getElementById("piosenki");
+    const paragraph = document.getElementById("tekstpiosenki");
+    
+
+
+    function onChangeHandler() {
+        const selectedFile = fileMap[songsSelect.value];
+        fetch(selectedFile)
+            .then(response => response.text())
+            .then(text => {
+                paragraph.textContent = text;
+            })
+            .catch(error => console.error('Error fetching file:', error));
+    }
+
+
+
+document.getElementById('Selector').onchange = onChangeHandler;
+    function playMusic()
+    {
+        var selectedSong = songsSelect.value;
+        audio.src = selectedSong; // Set the audio source to the selected song
+        audio.play()
+    }
+    function pauseAudio()
+    {
+        audio.pause()
+    }
+
+</script>
