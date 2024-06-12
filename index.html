@@ -5,9 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Document</title>
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.16/dist/tailwind.min.css" rel="stylesheet">
+
     <style>
+        :root
+        {
+            --main-width:0px
+
+        }
+        *
+        {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+    
         .wpisz
         {
+            padding: 0;
+            margin: 0;
             font-family:  Calibri;
             background-color:  #fff;
         }
@@ -28,8 +43,8 @@
         .przyciski
         {
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
+            justify-content: space-evenly;
             padding-top: 10px;
         }
 
@@ -39,12 +54,38 @@
     padding: 10px;
     border: 3px solid black;
     margin: auto; /* This will center the box */
-    overflow-y:scroll;
+    overflow-y: scroll;
     }
     .box iframe {
     width: 100%;
     height: 100%;
 }
+    .progresscontainer
+    {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        padding-bottom: 15px;
+    }
+    .progress
+    {
+        position: relative;
+        background-color: black;
+        width: 300px;
+        height: 30px;
+
+    }
+    .progressbar
+    {   
+        background-color: red;
+        width: var(--main-width);
+        max-width: 300px;
+        height: 30px;
+        margin-bottom: 10px;
+    }
+
+
 
 
 
@@ -63,9 +104,6 @@
             <option value = "dzk.mp3">dzk.mp3</option>
             <option value = "finalny kendrick.mp3">finalny kendrick.mp3</option>
             <option value = "magic.mp3">magic.mp3</option>
-
-
-
         </select>
     </div>
 
@@ -80,6 +118,16 @@
         </button>
         </p>
     </div>
+
+    <div class="progresscontainer">
+        <div class="progress">
+            <div class="progressbar">
+
+            </div>
+        </div>
+    </div>
+      
+
     <div>
         <div class="box">
             <pre id="tekstpiosenki">
@@ -89,11 +137,15 @@ tutaj bedzie tekst
         </div>
     </div>
 
+
+
 </body>
 </html>
 
 <script>
-    //tutaj musi byc zamiast moje audio nazwa nuty
+    let duration;
+    let intervalId; 
+
     const fileMap = {
         'w moich bledach.mp3': 'w moich bledach.txt',
         'rozpierdol.mp3' : 'rozpierdol.txt',
@@ -103,15 +155,12 @@ tutaj bedzie tekst
         'dzk.mp3':'dzk.txt',
         'finalny kendrick.mp3':'finalny kendirkc.txt',
         'magic.mp3':'magic.txt'
+    };
 
-        // Add more mappings as needed
-};
     document.getElementById('piosenki').onchange = onChangeHandler;
     const audio = document.getElementById("moje audio");
     const songsSelect = document.getElementById("piosenki");
     const paragraph = document.getElementById("tekstpiosenki");
-    
-
 
     function onChangeHandler() {
         const selectedFile = fileMap[songsSelect.value];
@@ -121,20 +170,36 @@ tutaj bedzie tekst
                 paragraph.textContent = text;
             })
             .catch(error => console.error('Error fetching file:', error));
+
+        const root = document.documentElement;
+        root.style.setProperty('--main-width', 0);
+        clearInterval(intervalId);
+
+        audio.addEventListener("loadedmetadata", function() {
+            duration = audio.duration;
+            const desiredWidth = 300;
+            clearInterval(intervalId); // Clear any existing interval
+            intervalId = setInterval(function() {
+                const currentTime = audio.currentTime;
+                const width = (currentTime / duration) * desiredWidth;
+                const root = document.documentElement;
+                root.style.setProperty('--main-width', width + 'px');
+                if (currentTime >= duration) {
+                    clearInterval(intervalId);
+                }
+            }, 100); // Check every 100 milliseconds
+        });
     }
 
+    document.getElementById('Selector').onchange = onChangeHandler;
 
-
-document.getElementById('Selector').onchange = onChangeHandler;
-    function playMusic()
-    {
+    function playMusic() {
         var selectedSong = songsSelect.value;
         audio.src = selectedSong; // Set the audio source to the selected song
-        audio.play()
-    }
-    function pauseAudio()
-    {
-        audio.pause()
+        audio.play();
     }
 
+    function pauseAudio() {
+        audio.pause();
+    }
 </script>
