@@ -8,9 +8,20 @@
 <style>
 body
 {
-    background-color: #F5FAF0;
     overflow: hidden;
 }
+#bg1
+    {
+        
+        position: absolute;
+
+    }
+    #bg
+    {
+        position: absolute;
+        opacity: 0;
+
+    }
 .container
 {
     display: flex;
@@ -26,6 +37,7 @@ body
     height: 500px;
     width: 300px;
     background-color: white;
+    z-index: 1;
 }
 .image
 {
@@ -133,15 +145,20 @@ body
 
 
 <body>
+    <div id="bg1">
+        <img src="bg1.png">
+    </div>
+    <div  id="bg"><img src="bg2.png"></div>
+
     <div class="container">
         <div class="box">
             <img src="448391454_1611620552951293_5402303603086425741_n.jpg" class="image">
             <div>
                 <img src="pause.png" id="button" class="play" onclick='PlayMusic()'>
                 <input type="range" value="0" id="progress">
-                <audio src="TRACE-CZAAS.mp3" id="audio"></audio>
+                <audio src="TRACE CZAAS.wav" id="audio"></audio>
                 <select id="mySelect">
-                    <option value="TRACE-CZAAS.mp3">trace czas</option>
+                    <option value="TRACE CZAAS.wav">trace czas</option>
                     <option value="rozjebane.mp3">rozjebane</option>
                 </select>
             </div>
@@ -157,7 +174,6 @@ body
     const select = document.getElementById("mySelect");
     slider.oninput = function() {
     audio.currentTime = slider.value;
-    button.src = "play.png";
     PlayMusic()
 
 };
@@ -184,7 +200,26 @@ body
 
 
     }
-    
+    let currentopacity = 0
+    const bg = document.getElementById("bg")
+    window.addEventListener("wheel",function(event)
+        {
+            console.log(currentopacity)
+            if (event.deltaY < 0) {
+                // Scrolling up, increase opacity
+                if (currentopacity < 1) {
+                    currentopacity += 0.1;
+                }
+            } else {
+                // Scrolling down, decrease opacity
+                if (currentopacity > 0) {
+                    currentopacity -= 0.1;
+                }
+            }
+            bg.style.opacity = currentopacity;
+            console.log("aaa")
+        }
+    )
     
 
 </script>
