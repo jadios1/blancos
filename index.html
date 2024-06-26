@@ -137,8 +137,39 @@ body
     height:30px;
     width: 100px;
     position: relative;
-    top: -150px;
+    top: -480px;
     left: 100px;
+
+}
+#volume
+{
+    position: relative;
+    -webkit-appearance: none;
+    appearance: none;   
+    background-color: black;
+    top: -404px;
+    left: 110px;
+    width: 40%; /* Set the width of the slider */
+    height: 7px; /* Set the height of the slider track */
+
+
+}
+#volume::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px; /* Width of the slider thumb */
+            height: 20px; /* Height of the slider thumb */
+            background: url('loading2.png') center/cover no-repeat; /* Slider thumb image */
+            cursor: pointer; /* Change cursor to pointer when hovering over the thumb */
+        }
+
+#volumeimg
+{
+    position: relative;
+    scale: 0.1;
+    top: -240px;
+    left: -60px;
+
 
 }
 </style>
@@ -156,6 +187,10 @@ body
             <div>
                 <img src="pause.png" id="button" class="play" onclick='PlayMusic()'>
                 <input type="range" value="0" id="progress">
+                <div>
+                    <img src="volume.png" id="volumeimg">
+                    <input type="range" value="100" id="volume" max = "100">
+                </div>
                 <audio src="TRACE-CZAAS.mp3" id="audio"></audio>
                 <select id="mySelect">
                     <option value="TRACE-CZAAS.mp3">trace czas</option>
@@ -175,6 +210,16 @@ body
     const bg = document.getElementById("bg");
     const bg1 = document.getElementById("bg1");
     const bg2 = document.getElementById("bg2");
+    const volume = document.getElementById("volume")
+    volume.oninput = function()
+    {
+        audio.volume = volume.value/100
+        console.log(audio.volume)
+    }
+
+
+
+
     slider.oninput = function() 
     {
     audio.currentTime = slider.value;
@@ -195,6 +240,7 @@ body
                 audio.pause();
         }
         }
+    
     select.oninput = function()
     {
         audio.src = select.value;
@@ -232,5 +278,6 @@ body
         }
     )
     
+
 
 </script>
