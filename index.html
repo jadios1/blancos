@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<style>
+body
+{
+    background-color: #F5FAF0;
+    overflow: hidden;
+}
+.container
+{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+
+}
+.box
+{
+    box-shadow: 0px 0px 80px;
+    border-radius: 10px;
+    height: 500px;
+    width: 300px;
+    background-color: white;
+}
+.image
+{
+    box-shadow: 0px 0px 10px rgb(0,0,0.31);
+    border-radius: 10px;
+    position: relative;
+    height: 250px;
+    width: 250px;
+    top: 20px;
+    left: 25px;
+    
+
+}
+.textcontainer {
+    position: absolute;
+    z-index: -1;
+    width: 100%;
+    height: 100vh; /* Full viewport height */
+}
+
+.bgtext {
+    position: absolute;
+    font-size: 40px;
+    z-index: -1;
+    opacity: 0.3;
+    top: 0; /* Custom vertical position */
+    left: 0px; /* Custom horizontal position */
+}
+.bgtext2 {
+    position: absolute;
+    font-size: 40px;
+    z-index: -1;
+    opacity: 0.3;
+    top: -3400px; /* Custom vertical position */
+    left: 0px; /* Custom horizontal position */
+}
+
+
+.play
+{
+    scale: 0.15;
+    border-radius: 10px;
+    position: relative;
+    height: 250px;
+    width: 250px;
+    top: -40px;
+    left: 25px;
+}
+.pause
+{
+    scale: 0.19;
+    border-radius: 10px;
+    position: relative;
+    height: 250px;
+    width: 250px;
+    top: -294px;
+    left: 25px;
+}
+.loading
+{
+    position: relative;
+    scale: 0.9;
+    top: -220px;
+    right: -10px;
+    opacity: 0.1;
+}
+.loading2
+{
+    scale: 2;
+    position: relative;
+    top: -220px;
+    right: 260px;
+}
+#progress {
+    position: relative;
+    width: 100%; /* Set the width of the slider */
+    height: 10px; /* Set the height of the slider track */
+    -webkit-appearance: none;
+    appearance: none;   
+    scale: 0.9;
+    top: -220px;
+    border-radius: 50px;
+
+    background: url('loading.png') center/cover no-repeat; /* Use 'thumb.png' as the custom thumb image */
+    cursor: pointer; /* Change cursor to pointer when hovering over the thumb */
+}
+#progress::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            appearance: none;
+            width: 20px; /* Width of the slider thumb */
+            height: 20px; /* Height of the slider thumb */
+            background: url('loading2.png') center/cover no-repeat; /* Slider thumb image */
+            cursor: pointer; /* Change cursor to pointer when hovering over the thumb */
+        }
+#mySelect
+{
+    height:30px;
+    width: 100px;
+    position: relative;
+    top: -150px;
+    left: 100px;
+
+}
+</style>
+
+
+<body>
+    <div class="container">
+        <div class="box">
+            <img src="448391454_1611620552951293_5402303603086425741_n.jpg" class="image">
+            <div>
+                <img src="pause.png" id="button" class="play" onclick='PlayMusic()'>
+                <input type="range" value="0" id="progress">
+                <audio src="TRACE CZAAS.wav" id="audio"></audio>
+                <select id="mySelect">
+                    <option value="TRACE CZAAS.wav">trace czas</option>
+                    <option value="rozjebane.mp3">rozjebane</option>
+                </select>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+<script>
+    const audio = document.getElementById("audio");
+    const button = document.getElementById("button");
+    const slider = document.getElementById("progress");
+    const select = document.getElementById("mySelect");
+    slider.oninput = function() {
+    audio.currentTime = slider.value;
+    button.src = "play.png";
+    PlayMusic()
+
+};
+
+    function PlayMusic() {
+        if (audio.paused) {
+            slider.max = audio.duration;
+                audio.play();
+                button.src = "play.png";
+                setInterval(() => {
+                    slider.value = audio.currentTime;
+                }, 100);
+        } 
+        else {
+                button.src = "pause.png";
+                audio.pause();
+        }
+        }
+    select.oninput = function()
+    {
+        audio.src = select.value;
+        button.src = "pause.png";
+
+
+
+    }
+    
+    
+
+</script>
