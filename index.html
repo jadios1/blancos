@@ -10,7 +10,7 @@ body
 {
     overflow: hidden;
 }
-#bg1
+#bg3
     {
         
         position: absolute;
@@ -145,10 +145,10 @@ body
 
 
 <body>
-    <div id="bg1">
-        <img src="bg1.png">
+    <div id="bg3">
+        <img id="bg2" src="b1traceczas.png">
     </div>
-    <div  id="bg"><img src="bg2.png"></div>
+    <div  id="bg"><img id="bg1" src="b2traceczas.png"></div>
 
     <div class="container">
         <div class="box">
@@ -172,11 +172,14 @@ body
     const button = document.getElementById("button");
     const slider = document.getElementById("progress");
     const select = document.getElementById("mySelect");
-    slider.oninput = function() {
+    const bg = document.getElementById("bg");
+    const bg1 = document.getElementById("bg1");
+    const bg2 = document.getElementById("bg2");
+    slider.oninput = function() 
+    {
     audio.currentTime = slider.value;
     PlayMusic()
-
-};
+    };
 
     function PlayMusic() {
         if (audio.paused) {
@@ -196,12 +199,20 @@ body
     {
         audio.src = select.value;
         button.src = "pause.png";
+        if (select.value==="TRACE-CZAAS.mp3")
+        {
+            bg1.src = "b2traceczas.png";
+            bg2.src = "b1traceczas.png";
+        }
+        else if(select.value==="rozjebane.mp3")
+        {
+            bg1.src = "bg1rozjebane.png";
+            bg2.src = "bg2rozjebane.png";
 
-
-
+        }
     }
     let currentopacity = 0
-    const bg = document.getElementById("bg")
+
     window.addEventListener("wheel",function(event)
         {
             console.log(currentopacity)
